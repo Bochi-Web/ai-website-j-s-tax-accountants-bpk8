@@ -1,60 +1,60 @@
 ---
 title: Pricing
-description: "Transparent pricing for professional tax preparation, bookkeeping, and payroll services from J&S Tax Accountants"
+description: "Professional tax preparation and bookkeeping services with transparent pricing. From basic tax filing to comprehensive business accounting solutions."
 draft: false
 plans:
-- title: Individual Tax Prep
-  subtitle: Perfect for Personal Tax Returns
-  price: 149
-  type: return
+- title: Basic Bookkeeping
+  subtitle: Best For Small Businesses
+  price: 150
+  type: month
   features:
-    - Personal Income Tax Filing
-    - Schedule C (Business Income)
-    - Itemized Deductions
-    - Electronic Filing Included
-    - Tax Planning Consultation
+    - Monthly Financial Statements
+    - Bank Reconciliation
+    - Accounts Payable/Receivable
+    - QuickBooks Setup & Management
+    - Monthly Financial Review
   button:
-    label: Schedule Consultation
+    label: Get started
     link: "/contact-us"
 
-- title: Small Business Package
-  subtitle: Complete Business Tax Solution
-  price: 299
-  type: return
+- title: Professional Package
+  subtitle: Most Popular for Growing Businesses
+  price: 300
+  type: month
   recommended: true
   features:
-    - Business Tax Preparation
-    - Monthly Bookkeeping
-    - Quarterly Reviews
-    - Sales Tax Preparation
-    - Financial Statement Preparation
-    - Year-End Tax Planning
-  button:
-    label: Get Started
-    link: "/contact-us"
-
-- title: Full Service Business
-  subtitle: Comprehensive Financial Management
-  price: 499
-  type: return
-  features:
-    - Everything in Small Business
-    - Payroll Management Setup
-    - Monthly Financial Reports
-    - Tax Strategy Planning
-    - Multi-State Tax Filing
+    - Everything in Basic Plan
+    - Payroll Processing & Management
+    - Sales Tax Preparation & Filing
+    - Quarterly Business Tax Prep
+    - Financial Planning & Analysis
     - Priority Support
   button:
-    label: Contact Us
+    label: Get started
+    link: "/contact-us"
+
+- title: Full-Service Business
+  subtitle: Best For Established Companies
+  price: 500
+  type: month
+  features:
+    - Everything in Professional Plan
+    - Annual Business Tax Returns
+    - Tax Strategy Planning
+    - IRS Representation
+    - Multi-State Tax Compliance
+    - Dedicated Account Manager
+  button:
+    label: Get started
     link: "/contact-us"
 
 call_to_action:
   title: Need a custom solution?
-  content: We offer flexible pricing packages and group discounts for multiple returns or ongoing services. Our professional team will work with you to find the perfect solution for your tax and accounting needs.
+  content: We offer package deals with lucrative discount incentives for multiple services. Every business is unique, and we're here to create a plan that fits your specific needs and budget.
   image: '/images/cta.png'
   button:
     enable: true
-    label: "Get Custom Quote"
+    label: "Contact Us for Group Discounts"
     link: "/contact-us"
     
 ---
