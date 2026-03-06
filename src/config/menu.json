@@ -51,8 +51,8 @@
           "url": "/about-us#mission"
         },
         {
-          "text": "Online Booking",
-          "url": "/contact-us#booking"
+          "text": "Contact Us",
+          "url": "/contact-us"
         }
       ]
     },
@@ -60,12 +60,8 @@
       "name": "Support",
       "menu": [
         {
-          "text": "Contact Us",
-          "url": "/contact-us"
-        },
-        {
-          "text": "Get Quote",
-          "url": "/contact-us#quote"
+          "text": "Online Booking",
+          "url": "/contact-us#booking"
         },
         {
           "text": "Privacy Policy",

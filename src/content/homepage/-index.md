@@ -1,40 +1,40 @@
 ---
 banner:
   title: Expert Tax Preparation and Bookkeeping Services You Can Trust
-  content: At J&S Tax Accountants, we are here to help you every step of the way! We provide comprehensive tax preparation, bookkeeping, and financial management services <br/> designed to maximize your returns and minimize your stress.
+  content: At J&S Tax Accountants, we are here to help you in every step of the way! We provide comprehensive <br/> tax preparation, bookkeeping, and financial management services with utmost client satisfaction
   image: /images/banner-art.png
   button:
     enable: true
-    label: "Schedule Consultation"
-    link: "/contact-us"
+    label: "Contact Us"
+    link: "/contact"
 
 # feature
 feature:
-  title: What Sets Us Apart
+  title: See What Sets Us Apart
   features:
     - name: "Trust"
       icon: "/images/code.svg"
-      content: "We build lasting relationships with our clients through transparent communication and reliable service"
+      content: "Building strong relationships with our clients through reliable and accurate tax preparation services"
     - name: "Focus"
       icon: "/images/oop.svg"
-      content: "Dedicated attention to your unique financial needs and business requirements"
-    - name: "Integrity"
-      icon: "/images/user-clock.svg"
-      content: "Honest, ethical practices in all our tax preparation and bookkeeping services"
-    - name: "Excellence"
-      icon: "/images/love.svg"
-      content: "Professional expertise delivering maximum value for your investment"
+      content: "Dedicated attention to your financial needs with personalized bookkeeping solutions"
     - name: "Online Booking"
+      icon: "/images/user-clock.svg"
+      content: "Convenient online booking services for easy scheduling of consultations and appointments"
+    - name: "Integrity"
+      icon: "/images/love.svg"
+      content: "Honest and transparent financial services you can depend on for your business success"
+    - name: "Professional Service"
       icon: "/images/speedometer.svg"
-      content: "Convenient online scheduling for consultations and service appointments"
-    - name: "Comprehensive Services"
+      content: "Comprehensive range of accounting services delivered by experienced professionals"
+    - name: "Excellence"
       icon: "/images/cloud.svg"
-      content: "Full range of accounting, bookkeeping, and tax preparation solutions"
+      content: "Committed to providing the highest quality tax preparation and bookkeeping services"
 
 # services
 services:
   - title: "Professional Bookkeeping Services for Your Business Success"
-    content: "Our comprehensive bookkeeping solutions provide accurate financial record-keeping that allows your business to run smoothly. We handle all aspects of your financial documentation, from daily transactions to monthly reconciliations, ensuring your books are always audit-ready and compliant with current regulations."
+    content: "Our professional bookkeeping solutions provide comprehensive accounting solutions allowing your business to run smoothly. We believe that the selection of the right bookkeeping services is paramount to ensuring the overall success of any organization. Our experienced team delivers accurate financial records and reports tailored to your business needs."
     images:
       - "/images/service-slide-1.png"
       - "/images/service-slide-2.png"
@@ -45,49 +45,49 @@ services:
       link: /services
 
   - title: "Complete Payroll Management Solutions"
-    content: "Take the complexity out of payroll processing with our professional payroll management services. We handle setup, monthly processing, tax compliance, and work with trusted partners like ADP to ensure your employees are paid accurately and on time while maintaining full compliance with federal and state regulations."
+    content: "Streamline your payroll processes with our comprehensive payroll management services. We handle everything from initial setup to monthly processing, ensuring your employees are paid accurately and on time. Our partnership with ADP Payroll Processing Company guarantees reliable and efficient payroll solutions for businesses of all sizes."
     images:
       - "/images/service-slide-1.png"
     button:
       enable: true
-      label: Get Started
+      label: Learn More
       link: /services
 
-  - title: "Expert Business Tax Preparation and Planning"
-    content: "Our experienced team provides comprehensive business tax preparation services designed to minimize your tax liability while ensuring full compliance. We stay current with the latest tax laws and regulations to maximize your deductions and help you keep more of what you earn through strategic tax planning."
+  - title: "Expert Business Tax Preparation Services"
+    content: "Navigate complex tax regulations with confidence through our expert business tax preparation services. We serve a huge range of industries and provide package deals with lucrative discount incentives. Our experienced team ensures your taxes are filed accurately and on time, maximizing your deductions and minimizing your liability."
     images:
       - "/images/service-slide-1.png"
       - "/images/service-slide-2.png"
       - "/images/service-slide-3.png"
     button:
       enable: true
-      label: Schedule Now
-      link: /contact-us
+      label: Learn More
+      link: /services
 
-  - title: "Sales Tax Preparation and Compliance"
-    content: "Stay compliant with sales tax requirements across multiple jurisdictions with our specialized sales tax preparation services. We help businesses navigate complex sales tax regulations, prepare accurate filings, and maintain proper documentation to avoid costly penalties and ensure smooth operations."
+  - title: "Comprehensive Financial Management Services"
+    content: "Our comprehensive range of professional financial management services includes sales tax preparation, bookkeeping, and strategic financial planning. We understand the importance of sound financial management for business success and provide tailored solutions that meet your specific needs and budget requirements."
     images:
       - "/images/service-slide-1.png"
       - "/images/service-slide-2.png"
       - "/images/service-slide-3.png"
     button:
       enable: true
-      label: Contact Us
-      link: /contact-us
+      label: Learn More
+      link: /services
 
 # workflow
 workflow:
-  title: "Experience Professional Financial Management with Our Proven Process"
+  title: "Strategy. Planning. Execution."
   image: "/images/banner.png"
-  description: "Strategy. Planning. Execution. We believe that selecting the right financial services is paramount to ensuring the success of any business organization."
+  description: "We believe that the selection of the right financial services is of paramount importance towards ensuring the success of any business. Our strategic approach combines careful planning with flawless execution to deliver exceptional results."
 
 # call_to_action
 call_to_action:
-  title: Ready to Simplify Your Taxes and Bookkeeping?
-  content: Contact J&S Tax Accountants today for a consultation. We're committed to providing utmost satisfaction with our comprehensive range of professional financial management services.
+  title: Ready to Get Started with Professional Tax Services?
+  content: J&S Tax Accountants believes in developing strong relationships with clients by delivering sound tax preparation and bookkeeping services. Contact us today for a consultation.
   image: "/images/cta.png"
   button:
     enable: true
-    label: "Contact Us Today"
-    link: "/contact-us"
+    label: "Contact Us"
+    link: "/contact"
 ---
