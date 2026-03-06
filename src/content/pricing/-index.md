@@ -1,60 +1,59 @@
 ---
 title: Pricing
-description: "Professional tax preparation and bookkeeping service pricing from J&S Tax Accountants - competitive rates and package deals available"
+description: "Transparent pricing for comprehensive tax preparation and bookkeeping services. Choose the plan that fits your business needs with competitive rates and package deals."
 draft: false
 plans:
-- title: Basic Bookkeeping
-  subtitle: Perfect For Small Businesses
+- title: Basic Tax Prep
+  subtitle: Best For Individuals
   price: 150
-  type: month
+  type: return
   features:
-    - Monthly Financial Statements
-    - Transaction Recording
-    - Bank Reconciliation
-    - Basic Tax Preparation Support
-    - Email Support
+    - Personal Tax Preparation
+    - Federal & State Returns
+    - Electronic Filing
+    - Tax Planning Consultation
+    - Direct Deposit Service
   button:
     label: Get started
     link: "/contact-us"
 
 - title: Professional Package
-  subtitle: Most Popular For Growing Businesses
-  price: 300
-  type: month
+  subtitle: Best For Small Businesses
+  price: 350
+  type: return
   recommended: true
   features:
-    - Everything in Basic
-    - Payroll Management Setup
-    - Sales Tax Preparation
     - Business Tax Preparation
-    - Priority Support
-    - Quarterly Reviews
+    - Quarterly Bookkeeping
+    - Sales Tax Preparation
+    - Financial Statement Review
+    - Year-Round Support
+    - Priority Service
   button:
     label: Get started
     link: "/contact-us"
 
-- title: Full-Service Plan
-  subtitle: Comprehensive For Established Businesses
-  price: 500
-  type: month
+- title: Complete Business
+  subtitle: Best For Growing Companies
+  price: 750
+  type: return
   features:
-    - Everything in Professional
-    - Advanced Financial Reporting
+    - Full Service Bookkeeping
+    - Payroll Management Setup
+    - Monthly Financial Reports
     - Tax Strategy Planning
-    - IRS Representation
-    - Monthly Consultations
-    - Custom Solutions
+    - Audit Support
   button:
     label: Get started
     link: "/contact-us"
 
 call_to_action:
   title: Need a custom solution?
-  content: We offer package deals with lucrative discount incentives for our clients. Every business is unique, and we're here to create a tailored plan that fits your specific needs and budget.
+  content: We offer package deals with lucrative discount incentives for multiple services. Contact us and mention "Group Discounts" to learn about special offers tailored to your business needs.
   image: '/images/cta.png'
   button:
     enable: true
-    label: "Contact Us for Group Discounts"
+    label: "Contact Us"
     link: "/contact-us"
     
 ---
