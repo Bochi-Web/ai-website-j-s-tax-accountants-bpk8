@@ -1,23 +1,23 @@
 ---
 title: Frequently Asked Questions
-description: "Get answers to common questions about tax preparation, bookkeeping services, pricing, and working with J&S Tax Accountants."
+description: "Common questions about J&S Tax Accountants' tax preparation, bookkeeping, and accounting services. Get answers about our pricing, process, and policies."
 draft: false
 faqs:
-  - title: What tax preparation services do you offer?
-    answer: We provide comprehensive tax preparation services including individual tax returns, business tax preparation, sales tax preparation, and quarterly filings. Our experienced team handles everything from simple personal returns to complex business tax situations, ensuring accuracy and maximum deductions for our clients.
+  - title: What types of tax returns do you prepare?
+    answer: We prepare individual tax returns, business tax returns for various entity types including sole proprietorships, partnerships, LLCs, S-Corps, and C-Corps. We also handle sales tax preparation and can assist with amended returns and prior year filings. Our experienced team stays current with all tax law changes to ensure accurate preparation.
 
-  - title: Do you offer discounts for small businesses or non-profit organizations?
-    answer: Yes, we provide package deals with lucrative discount incentives for our clients. We understand that small businesses and non-profits operate on tight budgets, so we offer competitive pricing and group discounts. Contact us and mention "Group Discounts" during your consultation to learn about available offers and special pricing packages.
+  - title: Do you offer discounts for multiple services or group packages?
+    answer: Yes, we provide package deals with lucrative discount incentives to our clients. If you need multiple services such as bookkeeping, payroll management, and tax preparation, we can create a customized package that offers significant savings. Just reach out to us and mention "Group Discounts" during your consultation to learn more about our special offers.
 
   - title: How much do your bookkeeping services cost?
-    answer: Our professional bookkeeping services are offered at competitive hourly rates. We believe in transparent pricing and will provide you with a detailed quote based on your specific business needs. For payroll management, we charge an initial setup fee of $250 (one-time fee) and a monthly fee of $50 for ongoing payroll services. Additional fees may apply from ADP Payroll Processing Company.
+    answer: Our professional bookkeeping services are charged at competitive hourly rates. The exact cost depends on the complexity of your business and the scope of services needed. We provide a free consultation to assess your specific requirements and provide you with a detailed quote. Our goal is to deliver comprehensive accounting solutions that allow your business to run smoothly while staying within your budget.
 
-  - title: Can you help with payroll management and setup?
-    answer: Absolutely! We offer comprehensive payroll management services including initial setup, ongoing payroll processing, tax filings, and compliance management. Our payroll setup fee is $250 (one-time) with a monthly service fee of $50. We work with ADP Payroll Processing Company to ensure your payroll is handled professionally and on time.
+  - title: What is included in your payroll management service?
+    answer: Our payroll management service includes an initial setup fee of $250 (one-time fee) and a monthly fee of $50 for ongoing payroll processing. This covers employee setup, payroll calculations, tax withholdings, and direct deposits. Please note that additional fees might be charged directly from ADP Payroll Processing Company for their processing services.
 
-  - title: Do you provide year-round support or just during tax season?
-    answer: We provide year-round support for all our clients. Tax planning and bookkeeping are ongoing processes that require attention throughout the year, not just during tax season. Our team is available to help with quarterly filings, bookkeeping needs, financial planning, and any tax-related questions you may have at any time.
+  - title: Can you help if I'm behind on my taxes or have unfiled returns?
+    answer: Absolutely. We understand that tax situations can become overwhelming, and we're here to help you get back on track. Our experienced team can assist with unfiled returns, tax debt resolution, and setting up payment plans with the IRS. We'll work with you to resolve any tax issues and ensure you're compliant going forward.
 
-  - title: What documents do I need to bring for tax preparation?
-    answer: For individual returns, bring your W-2s, 1099s, receipts for deductions, previous year's tax return, and any other relevant financial documents. For business returns, we'll need profit and loss statements, expense receipts, payroll records, and business asset information. We'll provide you with a comprehensive checklist when you schedule your appointment to ensure you have everything needed for an efficient preparation process.
+  - title: Do you offer online booking and remote services?
+    answer: Yes, we offer convenient online booking services to schedule your appointments at your convenience. We understand the importance of accessibility and can provide remote consultations and document review when appropriate. Our goal is to make our comprehensive range of bookkeeping, financial management, and tax preparation services as convenient as possible for our clients.
 ---
