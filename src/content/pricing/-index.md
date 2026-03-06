@@ -1,60 +1,60 @@
 ---
 title: Pricing
-description: "Transparent pricing for professional tax preparation, bookkeeping, and payroll management services from J&S Tax Accountants."
+description: "Professional tax preparation and bookkeeping service pricing from J&S Tax Accountants - competitive rates and package deals available"
 draft: false
 plans:
-- title: Individual Tax Prep
-  subtitle: Personal Tax Returns
+- title: Basic Bookkeeping
+  subtitle: Perfect For Small Businesses
   price: 150
-  type: starting at
+  type: month
   features:
-    - Federal & State Tax Returns
-    - Electronic Filing
-    - Tax Planning Consultation
-    - Direct Deposit Setup
-    - Year-Round Support
+    - Monthly Financial Statements
+    - Transaction Recording
+    - Bank Reconciliation
+    - Basic Tax Preparation Support
+    - Email Support
   button:
-    label: Schedule Consultation
+    label: Get started
     link: "/contact-us"
 
-- title: Small Business Package
-  subtitle: Complete Business Solutions
-  price: 350
-  type: starting at
+- title: Professional Package
+  subtitle: Most Popular For Growing Businesses
+  price: 300
+  type: month
   recommended: true
   features:
-    - Business Tax Preparation
-    - Monthly Bookkeeping
-    - Quarterly Reports
+    - Everything in Basic
+    - Payroll Management Setup
     - Sales Tax Preparation
-    - Financial Statements
-    - Tax Planning & Strategy
+    - Business Tax Preparation
+    - Priority Support
+    - Quarterly Reviews
   button:
-    label: Get Started
+    label: Get started
     link: "/contact-us"
 
-- title: Full Service Plan
-  subtitle: Comprehensive Financial Management
+- title: Full-Service Plan
+  subtitle: Comprehensive For Established Businesses
   price: 500
-  type: starting at
+  type: month
   features:
-    - All Business Services
-    - Payroll Management Setup
-    - ADP Integration
-    - Monthly Financial Analysis
-    - Tax Compliance Monitoring
-    - Priority Support
+    - Everything in Professional
+    - Advanced Financial Reporting
+    - Tax Strategy Planning
+    - IRS Representation
+    - Monthly Consultations
+    - Custom Solutions
   button:
-    label: Contact Us
+    label: Get started
     link: "/contact-us"
 
 call_to_action:
-  title: Need a custom package?
-  content: We provide package deals with lucrative discount incentives to our clients. Each business is unique, and we tailor our services to meet your specific accounting and tax preparation needs.
+  title: Need a custom solution?
+  content: We offer package deals with lucrative discount incentives for our clients. Every business is unique, and we're here to create a tailored plan that fits your specific needs and budget.
   image: '/images/cta.png'
   button:
     enable: true
-    label: "Get Group Discounts"
+    label: "Contact Us for Group Discounts"
     link: "/contact-us"
     
 ---

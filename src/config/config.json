@@ -24,14 +24,14 @@
 
   "params": {
     "contact_form_action": "#",
-    "footer_content": "Professional tax preparation and bookkeeping services for individuals and businesses. We're here to help you every step of the way with comprehensive financial management solutions.",
+    "footer_content": "Professional tax preparation and bookkeeping services you can trust. We help businesses and individuals achieve financial success through expert guidance and personalized service.",
     "copyright": "© 2024 J&S Tax Accountants. All rights reserved."
   },
 
   "metadata": {
     "meta_author": "J&S Tax Accountants",
     "meta_image": "/images/og-image.png",
-    "meta_description": "Professional tax preparation, bookkeeping, and financial management services. J&S Tax Accountants provides comprehensive accounting solutions for individuals and businesses."
+    "meta_description": "Professional tax preparation, bookkeeping, and financial management services. Comprehensive accounting solutions for businesses and individuals with expert guidance and personalized service."
   },
   "google_tag_manager": {
     "enable": false,

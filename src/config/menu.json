@@ -26,16 +26,16 @@
           "url": "/services#bookkeeping"
         },
         {
-          "text": "Tax Preparation",
-          "url": "/services#tax-prep"
-        },
-        {
           "text": "Payroll Management",
           "url": "/services#payroll"
         },
         {
           "text": "Sales Tax Prep",
           "url": "/services#sales-tax"
+        },
+        {
+          "text": "Business Tax Preparation",
+          "url": "/services#business-tax"
         }
       ]
     },
@@ -51,8 +51,8 @@
           "url": "/about-us#mission"
         },
         {
-          "text": "Contact Us",
-          "url": "/contact-us"
+          "text": "Online Booking",
+          "url": "/contact-us#booking"
         }
       ]
     },
@@ -60,12 +60,12 @@
       "name": "Support",
       "menu": [
         {
-          "text": "Online Booking",
-          "url": "/contact-us#booking"
+          "text": "Contact Us",
+          "url": "/contact-us"
         },
         {
           "text": "Free Consultation",
-          "url": "/contact-us"
+          "url": "/contact-us#consultation"
         },
         {
           "text": "Privacy Policy",
