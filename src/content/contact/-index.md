@@ -1,12 +1,12 @@
 ---
 title: "Contact Us"
-description: "meta description"
+description: "Get in touch with J&S Tax Accountants for professional tax preparation, bookkeeping, and financial management services. Schedule your consultation today."
 draft: false
 info:
-  title: Why you should contact us!
-  description: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit recusandae voluptates doloremque veniam temporibus porro culpa ipsa, nisi soluta minima saepe laboriosam debitis nesciunt.
+  title: Ready to simplify your taxes and finances?
+  description: At J&S Tax Accountants, we're here to help you every step of the way with our comprehensive range of tax preparation, bookkeeping, and financial management services. Contact us today to discuss your specific needs and discover how we can help your business thrive.
   contacts:
-    - "phone: +88 125 256 452"
-    - "Mail: [info@bigspring.com](mailto:info@bigspring.com)"
-    - "Address: 360 Main rd, Rio, Brazil"
+    - "Contact us for personalized service"
+    - "Email us for quick questions"
+    - "Schedule your consultation online"
 ---

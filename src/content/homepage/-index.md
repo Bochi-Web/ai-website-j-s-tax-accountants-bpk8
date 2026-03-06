@@ -1,93 +1,93 @@
 ---
 banner:
-  title: Let us solve your critical website development challenges
-  content: Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam nihil enim maxime corporis cumque <br/> totam aliquid nam sint inventore optio modi neque laborum officiis necessitatibus
+  title: Professional Tax Preparation and Bookkeeping Services You Can Trust
+  content: At J&S Tax Accountants, we are here to help you in every step of the way with comprehensive bookkeeping, <br/> financial management, and tax preparation services for businesses and individuals
   image: /images/banner-art.png
   button:
     enable: true
-    label: "Contact Us"
-    link: "/contact"
+    label: "Get Started Today"
+    link: "/contact-us"
 
 # feature
 feature:
-  title: Something You Need To Know
+  title: What Sets Us Apart
   features:
-    - name: "Clean Code"
+    - name: "Trust"
       icon: "/images/code.svg"
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit quam nihil"
-    - name: "Object Oriented"
+      content: "We build lasting relationships with our clients through reliable and accurate financial services"
+    - name: "Focus"
       icon: "/images/oop.svg"
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit quam nihil"
-    - name: "24h Service"
+      content: "Our dedicated team focuses on delivering personalized attention to every client's unique needs"
+    - name: "Professional Service"
       icon: "/images/user-clock.svg"
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit quam nihil"
-    - name: "Value for Money"
+      content: "Expert tax preparation and bookkeeping services with comprehensive financial management solutions"
+    - name: "Integrity"
       icon: "/images/love.svg"
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit quam nihil"
-    - name: "Faster Response"
+      content: "We maintain the highest ethical standards in all our client relationships and business practices"
+    - name: "Excellence"
       icon: "/images/speedometer.svg"
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit quam nihil"
-    - name: "Cloud Support"
+      content: "Committed to providing exceptional quality in every aspect of our accounting and tax services"
+    - name: "Online Booking"
       icon: "/images/cloud.svg"
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit quam nihil"
+      content: "Convenient online booking services for easy scheduling of consultations and appointments"
 
 # services
 services:
-  - title: "It is the most advanced digital marketing and it company."
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur. Leo facilisi nunc viverra tellus. Ac laoreet sit vel consquat. consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur. Leo facilisi nunc viverra tellus. Ac laoreet sit vel consquat."
+  - title: "Professional Bookkeeping Services for Your Business Success"
+    content: "Our comprehensive bookkeeping solutions provide detailed financial tracking and management, allowing your business to run smoothly while maintaining accurate records. We handle all aspects of your financial data with precision and care, ensuring compliance and supporting your business growth objectives."
     images:
       - "/images/service-slide-1.png"
       - "/images/service-slide-2.png"
       - "/images/service-slide-3.png"
     button:
       enable: true
-      label: Check it out
-      link: /contact
+      label: Learn More
+      link: /services
 
-  - title: "It is a privately owned Information and cyber security company"
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur. Leo facilisi nunc viverra tellus. Ac laoreet sit vel consquat. consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur. Leo facilisi nunc viverra tellus. Ac laoreet sit vel consquat."
+  - title: "Complete Payroll Management Solutions"
+    content: "We provide full payroll management services including setup, processing, and compliance. Our team works with trusted partners like ADP Payroll Processing to ensure your employees are paid accurately and on time while maintaining all necessary tax withholdings and reporting requirements."
     images:
       - "/images/service-slide-1.png"
     button:
       enable: true
-      label: Check it out
-      link: /contact
+      label: Get Quote
+      link: /contact-us
 
-  - title: "It’s a team of experienced and skilled people with distributions"
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur. Leo facilisi nunc viverra tellus. Ac laoreet sit vel consquat. consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur. Leo facilisi nunc viverra tellus. Ac laoreet sit vel consquat."
-    images:
-      - "/images/service-slide-1.png"
-      - "/images/service-slide-2.png"
-      - "/images/service-slide-3.png"
-    button:
-      enable: true
-      label: Check it out
-      link: /contact
-
-  - title: "A company standing different from others"
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur. Leo facilisi nunc viverra tellus. Ac laoreet sit vel consquat. consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur. Leo facilisi nunc viverra tellus. Ac laoreet sit vel consquat."
+  - title: "Expert Business and Sales Tax Preparation"
+    content: "Our experienced tax professionals handle all aspects of business tax preparation and sales tax compliance. We understand the complexities of tax regulations and work diligently to maximize your deductions while ensuring full compliance with all applicable tax laws and requirements."
     images:
       - "/images/service-slide-1.png"
       - "/images/service-slide-2.png"
       - "/images/service-slide-3.png"
     button:
       enable: true
-      label: Check it out
-      link: /contact
+      label: Schedule Consultation
+      link: /contact-us
+
+  - title: "Comprehensive Financial Management Services"
+    content: "We serve a wide range of industries with our comprehensive financial management solutions. Our team develops strong relationships with clients by delivering sound financial advice, strategic planning, and ongoing support to help your business achieve its financial goals and long-term success."
+    images:
+      - "/images/service-slide-1.png"
+      - "/images/service-slide-2.png"
+      - "/images/service-slide-3.png"
+    button:
+      enable: true
+      label: Contact Us
+      link: /contact-us
 
 # workflow
 workflow:
-  title: "Experience the best workflow with us"
+  title: "Strategy. Planning. Execution."
   image: "/images/banner.png"
-  description: ""
+  description: "We believe that the selection of the right bookkeeping and tax preparation services is paramount to ensuring the overall success of any organization."
 
 # call_to_action
 call_to_action:
-  title: Ready to get started?
-  content: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat tristique eget amet, tempus eu at consecttur.
+  title: Ready to simplify your taxes and bookkeeping?
+  content: Contact us today to learn more about our comprehensive range of accounting services and discover how we can help your business thrive with professional financial management.
   image: "/images/cta.png"
   button:
     enable: true
-    label: "Contact Us"
-    link: "/contact"
+    label: "Schedule Consultation"
+    link: "/contact-us"
 ---

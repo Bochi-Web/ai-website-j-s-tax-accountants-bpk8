@@ -5,54 +5,54 @@
       "url": "/"
     },
     {
-      "name": "Blog",
-      "url": "/blog"
+      "name": "Services",
+      "url": "/services"
     },
     {
-      "name": "Pricing",
-      "url": "/pricing"
+      "name": "About Us",
+      "url": "/about-us"
     },
     {
-      "name": "Contact",
-      "url": "/contact"
-    },
-    {
-      "name": "FAQ",
-      "url": "/faq"
-    },
-    {
-      "name": "Elements",
-      "url": "/elements"
+      "name": "Contact Us",
+      "url": "/contact-us"
     }
   ],
   "footer": [
     {
-      "name": "Company",
+      "name": "Services",
       "menu": [
         {
-          "text": "Pricing",
-          "url": "/pricing"
+          "text": "Bookkeeping",
+          "url": "/services#bookkeeping"
         },
         {
-          "text": "Quick Start",
-          "url": "#"
+          "text": "Tax Preparation",
+          "url": "/services#tax-preparation"
+        },
+        {
+          "text": "Payroll Management",
+          "url": "/services#payroll"
+        },
+        {
+          "text": "Sales Tax Prep",
+          "url": "/services#sales-tax"
         }
       ]
     },
     {
-      "name": "Product",
+      "name": "Company",
       "menu": [
         {
-          "text": "Features",
-          "url": "#"
+          "text": "About Us",
+          "url": "/about-us"
         },
         {
-          "text": "Platform",
-          "url": "#"
+          "text": "Our Mission",
+          "url": "/about-us#mission"
         },
         {
-          "text": "Pricing",
-          "url": "/pricing"
+          "text": "Online Booking",
+          "url": "/contact-us#booking"
         }
       ]
     },
@@ -60,8 +60,12 @@
       "name": "Support",
       "menu": [
         {
-          "text": "FAQ",
-          "url": "/faq"
+          "text": "Contact Us",
+          "url": "/contact-us"
+        },
+        {
+          "text": "Get Quote",
+          "url": "/contact-us#quote"
         },
         {
           "text": "Privacy Policy",
