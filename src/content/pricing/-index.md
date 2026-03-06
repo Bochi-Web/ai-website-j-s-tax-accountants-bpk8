@@ -1,48 +1,48 @@
 ---
 title: Pricing
-description: "Transparent pricing for professional tax preparation and bookkeeping services. Get quality financial management solutions at competitive rates with J&S Tax Accountants."
+description: "Transparent pricing for professional tax preparation, bookkeeping, and payroll management services from J&S Tax Accountants."
 draft: false
 plans:
 - title: Individual Tax Prep
-  subtitle: Best For Personal Tax Returns
+  subtitle: Personal Tax Returns
   price: 150
-  type: filing
+  type: starting at
   features:
-    - Personal Income Tax Preparation
-    - E-filing Included
+    - Federal & State Tax Returns
+    - Electronic Filing
     - Tax Planning Consultation
-    - Document Review
-    - Accuracy Guarantee
+    - Direct Deposit Setup
+    - Year-Round Support
   button:
     label: Schedule Consultation
     link: "/contact-us"
 
-- title: Business Tax Package
-  subtitle: Best For Small Businesses
+- title: Small Business Package
+  subtitle: Complete Business Solutions
   price: 350
-  type: filing
+  type: starting at
   recommended: true
   features:
     - Business Tax Preparation
-    - Quarterly Tax Planning
-    - Bookkeeping Services
-    - Payroll Management Setup
+    - Monthly Bookkeeping
+    - Quarterly Reports
     - Sales Tax Preparation
-    - Year-End Financial Reports
+    - Financial Statements
+    - Tax Planning & Strategy
   button:
     label: Get Started
     link: "/contact-us"
 
-- title: Comprehensive Plan
-  subtitle: Best For Growing Businesses
+- title: Full Service Plan
+  subtitle: Comprehensive Financial Management
   price: 500
-  type: filing
+  type: starting at
   features:
-    - Full-Service Tax Preparation
-    - Monthly Bookkeeping
-    - Payroll Management
-    - Financial Planning
-    - Tax Strategy Consulting
+    - All Business Services
+    - Payroll Management Setup
+    - ADP Integration
+    - Monthly Financial Analysis
+    - Tax Compliance Monitoring
     - Priority Support
   button:
     label: Contact Us
@@ -50,7 +50,7 @@ plans:
 
 call_to_action:
   title: Need a custom package?
-  content: We offer flexible pricing and package deals with attractive discount incentives. Our professional team will work with you to create a solution that fits your specific needs and budget.
+  content: We provide package deals with lucrative discount incentives to our clients. Each business is unique, and we tailor our services to meet your specific accounting and tax preparation needs.
   image: '/images/cta.png'
   button:
     enable: true
