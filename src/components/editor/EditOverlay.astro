@@ -1,0 +1,1158 @@
+---
+/**
+ * EditOverlay
+ * Visual edit-mode layer activated by ?edit=true URL parameter.
+ * Renders a floating toolbar, section hover highlights, and click-to-select.
+ * Zero impact on the live site when inactive.
+ *
+ * Listens: URL ?edit=true parameter
+ * Dispatches: 'section-selected' CustomEvent on window
+ * Sets: data-section-selected attribute on <body>
+ */
+---
+
+<!-- Edit-mode styles — scoped with [data-edit-mode] so they never affect the live site -->
+<style is:global>
+  /* ── Toolbar ── */
+  .bw-edit-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 0.8125rem;
+    line-height: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  }
+
+  .bw-edit-toolbar__label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .bw-edit-toolbar__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: bw-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes bw-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .bw-edit-toolbar__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .bw-edit-toolbar__btn {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 0.375rem;
+    background: transparent;
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .bw-edit-toolbar__btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  /* Push page content down so toolbar doesn't overlap */
+  [data-edit-mode] {
+    padding-top: 40px;
+  }
+
+  /* ── Section hover highlight ── */
+  [data-edit-mode] [data-section] {
+    position: relative;
+    cursor: pointer;
+    transition: outline 0.15s ease, outline-offset 0.15s ease;
+    outline: 2px dashed transparent;
+    outline-offset: -2px;
+  }
+
+  [data-edit-mode] [data-section]:hover {
+    outline: 2px dashed var(--color-primary, #2563eb);
+  }
+
+  /* Global sections get orange/gold dashed border */
+  [data-edit-mode] [data-section][data-global="true"]:hover {
+    outline-color: #f59e0b;
+  }
+
+  /* ── Section label badge ── */
+  [data-edit-mode] [data-section]::before {
+    content: attr(data-section-label);
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    z-index: 100;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+    background: var(--color-primary, #2563eb);
+    color: #fff;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+
+  /* Global section badges use orange/gold */
+  [data-edit-mode] [data-section][data-global="true"]::before {
+    background: #f59e0b;
+  }
+
+  [data-edit-mode] [data-section]:hover::before {
+    opacity: 1;
+  }
+
+  /* ── Selected state ── */
+  [data-edit-mode] [data-section].bw-section-selected {
+    outline: 2px solid var(--color-primary, #2563eb);
+    outline-offset: -2px;
+    z-index: 51;
+    position: relative;
+  }
+
+  [data-edit-mode] [data-section][data-global="true"].bw-section-selected {
+    outline-color: #f59e0b;
+  }
+
+  [data-edit-mode] [data-section].bw-section-selected::before {
+    opacity: 1;
+  }
+
+  /* Dim overlay behind selected section */
+  .bw-edit-dimmer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.3);
+    pointer-events: auto;
+  }
+
+  .bw-edit-dimmer.bw-active {
+    display: block;
+  }
+
+  /* ── Preview state: green dashed border ── */
+  [data-edit-mode] [data-section].bw-section-previewing {
+    outline: 3px dashed #16a34a;
+    outline-offset: -3px;
+    z-index: 51;
+    position: relative;
+  }
+
+  [data-edit-mode] [data-section].bw-section-previewing::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(22, 163, 74, 0.04);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Approved flash: solid green border that fades ── */
+  [data-edit-mode] [data-section].bw-section-approved {
+    outline: 3px solid #16a34a;
+    outline-offset: -3px;
+    z-index: 51;
+    position: relative;
+    animation: bw-approved-fade 1.5s ease-out forwards;
+  }
+
+  @keyframes bw-approved-fade {
+    0% { outline-color: #16a34a; }
+    70% { outline-color: #16a34a; }
+    100% { outline-color: transparent; }
+  }
+
+  /* ── Floating action bar ── */
+  .bw-preview-action-bar {
+    display: none;
+    position: fixed;
+    z-index: 9997;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    font-family: system-ui, -apple-system, sans-serif;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .bw-preview-action-bar.bw-visible {
+    display: flex;
+  }
+
+  .bw-preview-action-bar__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #16a34a;
+    margin-right: 0.25rem;
+  }
+
+  .bw-preview-action-bar__btn {
+    padding: 0.375rem 0.875rem;
+    border-radius: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .bw-preview-action-bar__btn--approve {
+    background: #16a34a;
+    color: #fff;
+  }
+
+  .bw-preview-action-bar__btn--approve:hover {
+    background: #15803d;
+  }
+
+  .bw-preview-action-bar__btn--revert {
+    background: transparent;
+    color: #475569;
+    border-color: #cbd5e1;
+  }
+
+  .bw-preview-action-bar__btn--revert:hover {
+    background: #f1f5f9;
+  }
+
+  /* ── Staged edits counter in toolbar ── */
+  .bw-edit-toolbar__staged {
+    display: none;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    background: rgba(22, 163, 74, 0.2);
+    color: #4ade80;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .bw-edit-toolbar__staged.bw-has-edits {
+    display: inline-flex;
+  }
+
+  /* ── Publish button in toolbar ── */
+  .bw-edit-toolbar__publish {
+    display: none;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #22c55e;
+    border-radius: 0.375rem;
+    background: #16a34a;
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .bw-edit-toolbar__publish.bw-visible {
+    display: inline-flex;
+  }
+
+  .bw-edit-toolbar__publish:hover {
+    background: #15803d;
+  }
+
+  .bw-edit-toolbar__publish:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* ── Publish confirmation modal ── */
+  .bw-publish-modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  .bw-publish-modal-backdrop.bw-visible {
+    display: flex;
+  }
+
+  .bw-publish-modal {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 480px;
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bw-publish-modal__header {
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .bw-publish-modal__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+  }
+
+  .bw-publish-modal__subtitle {
+    font-size: 0.8125rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+  }
+
+  .bw-publish-modal__body {
+    padding: 1rem 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .bw-publish-modal__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .bw-publish-modal__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding: 0.625rem 0.75rem;
+    background: #f8fafc;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+  }
+
+  .bw-publish-modal__item-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: #64748b;
+    margin-top: 1px;
+  }
+
+  .bw-publish-modal__item-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .bw-publish-modal__item-section {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #0f172a;
+  }
+
+  .bw-publish-modal__item-desc {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 0.125rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bw-publish-modal__footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .bw-publish-modal__btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .bw-publish-modal__btn--cancel {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #e2e8f0;
+  }
+
+  .bw-publish-modal__btn--cancel:hover {
+    background: #e2e8f0;
+  }
+
+  .bw-publish-modal__btn--publish {
+    background: #16a34a;
+    color: #fff;
+  }
+
+  .bw-publish-modal__btn--publish:hover {
+    background: #15803d;
+  }
+
+  .bw-publish-modal__btn--publish:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .bw-publish-modal__spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: bw-spin 0.6s linear infinite;
+  }
+
+  @keyframes bw-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Success state */
+  .bw-publish-modal__success {
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+
+  .bw-publish-modal__success-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #16a34a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+  }
+
+  .bw-publish-modal__success-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 0.375rem;
+  }
+
+  .bw-publish-modal__success-text {
+    font-size: 0.8125rem;
+    color: #64748b;
+    margin-bottom: 1rem;
+  }
+
+  .bw-publish-modal__success-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8125rem;
+    color: #2563eb;
+    text-decoration: none;
+  }
+
+  .bw-publish-modal__success-link:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Login overlay ── */
+  .bw-login-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  .bw-login-overlay.bw-visible {
+    display: flex;
+  }
+
+  .bw-login-card {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    max-width: 380px;
+    padding: 2rem;
+  }
+
+  .bw-login-card__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    text-align: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .bw-login-card__subtitle {
+    font-size: 0.8125rem;
+    color: #64748b;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .bw-login-card__field {
+    margin-bottom: 1rem;
+  }
+
+  .bw-login-card__label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.375rem;
+  }
+
+  .bw-login-card__input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    color: #0f172a;
+    background: #fff;
+    transition: border-color 0.15s;
+    box-sizing: border-box;
+  }
+
+  .bw-login-card__input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  .bw-login-card__btn {
+    width: 100%;
+    padding: 0.625rem 1rem;
+    border: none;
+    border-radius: 0.375rem;
+    background: #0f172a;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .bw-login-card__btn:hover {
+    background: #1e293b;
+  }
+
+  .bw-login-card__btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .bw-login-card__error {
+    color: #ef4444;
+    font-size: 0.8125rem;
+    text-align: center;
+    margin-top: 0.75rem;
+    min-height: 1.25rem;
+  }
+</style>
+
+<!-- Dimmer overlay (sits behind selected section) -->
+<div class="bw-edit-dimmer" id="bw-edit-dimmer"></div>
+
+<!-- Floating preview action bar -->
+<div class="bw-preview-action-bar" id="bw-preview-action-bar">
+  <span class="bw-preview-action-bar__label">Preview</span>
+  <button class="bw-preview-action-bar__btn bw-preview-action-bar__btn--approve" id="bw-bar-approve" type="button">Approve</button>
+  <button class="bw-preview-action-bar__btn bw-preview-action-bar__btn--revert" id="bw-bar-revert" type="button">Revert</button>
+</div>
+
+<!-- Publish confirmation modal -->
+<div class="bw-publish-modal-backdrop" id="bw-publish-modal-backdrop">
+  <div class="bw-publish-modal">
+    <div class="bw-publish-modal__header">
+      <div class="bw-publish-modal__title" id="bw-publish-title">Publish Changes</div>
+      <div class="bw-publish-modal__subtitle" id="bw-publish-subtitle"></div>
+    </div>
+    <div class="bw-publish-modal__body" id="bw-publish-body">
+      <ul class="bw-publish-modal__list" id="bw-publish-list"></ul>
+    </div>
+    <div class="bw-publish-modal__footer" id="bw-publish-footer">
+      <button class="bw-publish-modal__btn bw-publish-modal__btn--cancel" id="bw-publish-cancel" type="button">Cancel</button>
+      <button class="bw-publish-modal__btn bw-publish-modal__btn--publish" id="bw-publish-confirm" type="button">Publish Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- Login overlay -->
+<div class="bw-login-overlay" id="bw-login-overlay">
+  <div class="bw-login-card">
+    <div class="bw-login-card__title">Bochi Web Editor</div>
+    <div class="bw-login-card__subtitle">Sign in to edit this site</div>
+    <form id="bw-login-form">
+      <div class="bw-login-card__field">
+        <label class="bw-login-card__label" for="bw-login-email">Email</label>
+        <input class="bw-login-card__input" id="bw-login-email" type="email" required autocomplete="email" placeholder="you@example.com" />
+      </div>
+      <div class="bw-login-card__field">
+        <label class="bw-login-card__label" for="bw-login-password">Password</label>
+        <input class="bw-login-card__input" id="bw-login-password" type="password" required autocomplete="current-password" />
+      </div>
+      <button class="bw-login-card__btn" id="bw-login-btn" type="submit">Sign In</button>
+      <div class="bw-login-card__error" id="bw-login-error"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+  (function initEditOverlay() {
+    // ── Activation check ──
+    const params = new URLSearchParams(window.location.search);
+    const editFromUrl = params.get('edit') === 'true';
+
+    // Persist across navigation via sessionStorage
+    if (editFromUrl) {
+      sessionStorage.setItem('bw-edit-mode', '1');
+    }
+
+    const isEditMode = editFromUrl || sessionStorage.getItem('bw-edit-mode') === '1';
+    if (!isEditMode) return;
+
+    // Ensure ?edit=true is in the URL (for sessionStorage-restored sessions)
+    if (!editFromUrl) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('edit', 'true');
+      history.replaceState(null, '', url.toString());
+    }
+
+    // ── Auth gate ──
+    const loginOverlay = document.getElementById('bw-login-overlay')!;
+    const loginForm = document.getElementById('bw-login-form')!;
+    const loginEmail = document.getElementById('bw-login-email') as HTMLInputElement;
+    const loginPassword = document.getElementById('bw-login-password') as HTMLInputElement;
+    const loginBtn = document.getElementById('bw-login-btn') as HTMLButtonElement;
+    const loginError = document.getElementById('bw-login-error')!;
+
+    const existingToken = sessionStorage.getItem('bw-auth-token');
+    const urlToken = params.get('token');
+
+    if (existingToken) {
+      // Already authenticated from a previous session
+      (window as any).__bwAuthToken = existingToken;
+      activateEditor();
+    } else if (urlToken) {
+      // One-time token from the Command Center — validate it
+      validateUrlToken(urlToken);
+    } else {
+      // No token — show login screen
+      loginOverlay.classList.add('bw-visible');
+      loginForm.addEventListener('submit', handleLogin);
+    }
+
+    async function validateUrlToken(token: string) {
+      // Clean token from URL immediately (don't leave it visible)
+      const cleanUrl = new URL(window.location.href);
+      cleanUrl.searchParams.delete('token');
+      history.replaceState(null, '', cleanUrl.toString());
+
+      try {
+        // Validate the access token server-side via Supabase
+        const response = await fetch('/api/auth', {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          sessionStorage.setItem('bw-auth-token', token);
+          (window as any).__bwAuthToken = token;
+          activateEditor();
+        } else {
+          // Token invalid or expired — fall back to login screen
+          loginOverlay.classList.add('bw-visible');
+          loginForm.addEventListener('submit', handleLogin);
+        }
+      } catch {
+        // Network error — fall back to login screen
+        loginOverlay.classList.add('bw-visible');
+        loginForm.addEventListener('submit', handleLogin);
+      }
+    }
+
+    async function handleLogin(e: Event) {
+      e.preventDefault();
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Signing in…';
+      loginError.textContent = '';
+
+      try {
+        const response = await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: loginEmail.value.trim(),
+            password: loginPassword.value,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.message || 'Invalid credentials');
+        }
+
+        sessionStorage.setItem('bw-auth-token', data.token);
+        (window as any).__bwAuthToken = data.token;
+        loginOverlay.classList.remove('bw-visible');
+        activateEditor();
+      } catch (err: any) {
+        loginError.textContent = err.message;
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Sign In';
+      }
+    }
+
+    function activateEditor() {
+    // ── Mark body ──
+    document.body.setAttribute('data-edit-mode', 'true');
+
+    // ── Build toolbar ──
+    const toolbar = document.createElement('div');
+    toolbar.className = 'bw-edit-toolbar';
+    toolbar.innerHTML = `
+      <span class="bw-edit-toolbar__label">
+        <span class="bw-edit-toolbar__dot"></span>
+        Edit Mode — Bochi Web
+      </span>
+      <div class="bw-edit-toolbar__actions">
+        <span class="bw-edit-toolbar__staged" id="bw-staged-counter"></span>
+        <button class="bw-edit-toolbar__publish" id="bw-publish-btn" type="button">
+          Publish
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        </button>
+        <button class="bw-edit-toolbar__btn" id="bw-new-page-btn" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Page
+        </button>
+        <button class="bw-edit-toolbar__btn" id="bw-exit-btn" type="button">Exit Edit Mode</button>
+      </div>
+    `;
+    document.body.prepend(toolbar);
+
+    document.getElementById('bw-exit-btn')!.addEventListener('click', () => {
+      sessionStorage.removeItem('bw-edit-mode');
+      sessionStorage.removeItem('bw-auth-token');
+      (window as any).__bwAuthToken = null;
+      const url = new URL(window.location.href);
+      url.searchParams.delete('edit');
+      window.location.href = url.toString();
+    });
+
+    // ── + New Page button ──
+    document.getElementById('bw-new-page-btn')!.addEventListener('click', () => {
+      deselectSection();
+      window.dispatchEvent(
+        new CustomEvent('section-selected', {
+          detail: { section: '__new_page__', isGlobal: false },
+        })
+      );
+    });
+
+    // ── Format section name: "how-it-works" → "How It Works" ──
+    function formatLabel(slug: string): string {
+      return slug
+        .split('-')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ');
+    }
+
+    // ── Label all sections ──
+    const sections = document.querySelectorAll<HTMLElement>('[data-section]');
+    sections.forEach((el) => {
+      const name = el.getAttribute('data-section') || '';
+      const isGlobal = el.getAttribute('data-global') === 'true';
+      const label = isGlobal ? `🌐 ${formatLabel(name)}` : formatLabel(name);
+      el.setAttribute('data-section-label', label);
+    });
+
+    // ── Selection logic ──
+    const dimmer = document.getElementById('bw-edit-dimmer')!;
+    let selectedSection: HTMLElement | null = null;
+
+    function selectSection(el: HTMLElement) {
+      deselectSection();
+      selectedSection = el;
+      el.classList.add('bw-section-selected');
+      dimmer.classList.add('bw-active');
+
+      const sectionName = el.getAttribute('data-section') || '';
+      const isGlobal = el.getAttribute('data-global') === 'true';
+      document.body.setAttribute('data-section-selected', sectionName);
+      window.dispatchEvent(
+        new CustomEvent('section-selected', {
+          detail: { section: sectionName, isGlobal },
+        })
+      );
+    }
+
+    function deselectSection() {
+      if (!selectedSection) return;
+      selectedSection.classList.remove('bw-section-selected');
+      selectedSection = null;
+      dimmer.classList.remove('bw-active');
+      document.body.removeAttribute('data-section-selected');
+      window.dispatchEvent(
+        new CustomEvent('section-selected', { detail: { section: null, isGlobal: false } })
+      );
+    }
+
+    // Expose deselectSection globally so ChatPanel can call it
+    (window as any).__bwDeselectSection = deselectSection;
+
+    // Click on a section to select it
+    sections.forEach((el) => {
+      el.addEventListener('click', (e) => {
+        if (selectedSection === el) return;
+        e.preventDefault();
+        e.stopPropagation();
+        selectSection(el);
+      });
+    });
+
+    // Click dimmer or press Escape to deselect
+    dimmer.addEventListener('click', () => deselectSection());
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') deselectSection();
+    });
+
+    // ── Preview system ──
+    const actionBar = document.getElementById('bw-preview-action-bar')!;
+    const barApproveBtn = document.getElementById('bw-bar-approve')!;
+    const barRevertBtn = document.getElementById('bw-bar-revert')!;
+    const stagedCounter = document.getElementById('bw-staged-counter')!;
+
+    let previewedSection: HTMLElement | null = null;
+    let previewOriginalHTML: string | null = null;
+    let scrollHandler: (() => void) | null = null;
+
+    function positionActionBar(sectionEl: HTMLElement) {
+      const rect = sectionEl.getBoundingClientRect();
+      const barHeight = actionBar.offsetHeight;
+      const barWidth = actionBar.offsetWidth;
+
+      // Position at bottom-center of the section
+      let top = rect.bottom - barHeight - 12;
+      let left = rect.left + (rect.width / 2) - (barWidth / 2);
+
+      // Clamp to viewport
+      top = Math.max(40, Math.min(top, window.innerHeight - barHeight - 8));
+      left = Math.max(8, Math.min(left, window.innerWidth - barWidth - 8));
+
+      // Avoid overlap with chat panel (400px on the right)
+      const chatPanel = document.getElementById('bw-chat-panel');
+      if (chatPanel?.classList.contains('bw-open')) {
+        const chatLeft = window.innerWidth - 400;
+        if (left + barWidth > chatLeft - 8) {
+          left = chatLeft - barWidth - 16;
+        }
+      }
+
+      actionBar.style.top = top + 'px';
+      actionBar.style.left = left + 'px';
+    }
+
+    // Preview activate: inject HTML, show green border, show floating bar
+    window.addEventListener('preview-activate', ((e: CustomEvent) => {
+      const { section, html } = e.detail;
+      const sectionEl = document.querySelector<HTMLElement>(`[data-section="${section}"]`);
+      if (!sectionEl) return;
+
+      previewedSection = sectionEl;
+      previewOriginalHTML = sectionEl.innerHTML;
+
+      sectionEl.innerHTML = html;
+      sectionEl.classList.remove('bw-section-selected');
+      sectionEl.classList.add('bw-section-previewing');
+
+      actionBar.classList.add('bw-visible');
+      requestAnimationFrame(() => positionActionBar(sectionEl));
+
+      scrollHandler = () => positionActionBar(sectionEl);
+      window.addEventListener('scroll', scrollHandler, { passive: true });
+      window.addEventListener('resize', scrollHandler, { passive: true });
+    }) as EventListener);
+
+    // Preview deactivate (revert): restore original HTML, remove green styling
+    window.addEventListener('preview-deactivate', ((e: CustomEvent) => {
+      if (!previewedSection || previewOriginalHTML === null) return;
+
+      previewedSection.innerHTML = previewOriginalHTML;
+      previewedSection.classList.remove('bw-section-previewing');
+      previewedSection.classList.add('bw-section-selected');
+
+      actionBar.classList.remove('bw-visible');
+
+      if (scrollHandler) {
+        window.removeEventListener('scroll', scrollHandler);
+        window.removeEventListener('resize', scrollHandler);
+        scrollHandler = null;
+      }
+
+      previewedSection = null;
+      previewOriginalHTML = null;
+    }) as EventListener);
+
+    // Preview approve: keep new HTML, green flash animation
+    window.addEventListener('preview-approve', ((e: CustomEvent) => {
+      if (!previewedSection) return;
+
+      previewedSection.classList.remove('bw-section-previewing');
+      previewedSection.classList.add('bw-section-approved');
+
+      actionBar.classList.remove('bw-visible');
+
+      if (scrollHandler) {
+        window.removeEventListener('scroll', scrollHandler);
+        window.removeEventListener('resize', scrollHandler);
+        scrollHandler = null;
+      }
+
+      const el = previewedSection;
+      setTimeout(() => {
+        el.classList.remove('bw-section-approved', 'bw-section-selected');
+      }, 1500);
+
+      previewedSection = null;
+      previewOriginalHTML = null;
+    }) as EventListener);
+
+    // Floating bar button handlers
+    barApproveBtn.addEventListener('click', () => {
+      if (!previewedSection) return;
+      window.dispatchEvent(new CustomEvent('preview-bar-approve', {
+        detail: { section: previewedSection.getAttribute('data-section') }
+      }));
+    });
+
+    barRevertBtn.addEventListener('click', () => {
+      if (!previewedSection) return;
+      window.dispatchEvent(new CustomEvent('preview-bar-revert', {
+        detail: { section: previewedSection.getAttribute('data-section') }
+      }));
+    });
+
+    // Staged edits counter + publish button visibility
+    const publishBtn = document.getElementById('bw-publish-btn')!;
+
+    function updateToolbarCounts() {
+      const edits = (window as any).__bwStagedEdits || [];
+      const count = edits.length;
+      if (count > 0) {
+        stagedCounter.textContent = `${count} change${count !== 1 ? 's' : ''} staged`;
+        stagedCounter.classList.add('bw-has-edits');
+        publishBtn.classList.add('bw-visible');
+      } else {
+        stagedCounter.textContent = '';
+        stagedCounter.classList.remove('bw-has-edits');
+        publishBtn.classList.remove('bw-visible');
+      }
+    }
+
+    window.addEventListener('staged-edits-changed', (() => {
+      updateToolbarCounts();
+    }) as EventListener);
+
+    // ── Publish system ──
+    const modalBackdrop = document.getElementById('bw-publish-modal-backdrop')!;
+    const publishTitle = document.getElementById('bw-publish-title')!;
+    const publishSubtitle = document.getElementById('bw-publish-subtitle')!;
+    const publishBody = document.getElementById('bw-publish-body')!;
+    const publishList = document.getElementById('bw-publish-list')!;
+    const publishFooter = document.getElementById('bw-publish-footer')!;
+    const publishCancel = document.getElementById('bw-publish-cancel')!;
+    const publishConfirm = document.getElementById('bw-publish-confirm')!;
+
+    function formatSectionName(slug: string): string {
+      return slug.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
+
+    function buildCommitMessage(edits: any[]): string {
+      const sectionNames = edits.map((e: any) => formatSectionName(e.section));
+      const unique = [...new Set(sectionNames)];
+      return `Edit: ${unique.join(', ')} — ${edits.length} change${edits.length !== 1 ? 's' : ''} [via Bochi Web Editor]`;
+    }
+
+    function openPublishModal() {
+      const edits = (window as any).__bwStagedEdits || [];
+      if (edits.length === 0) return;
+
+      // Reset to default state
+      publishTitle.textContent = 'Publish Changes';
+      publishSubtitle.style.color = '';
+      publishSubtitle.textContent = `${edits.length} change${edits.length !== 1 ? 's' : ''} will be committed and deployed`;
+
+      // Build list of changes
+      publishList.innerHTML = edits.map((edit: any) => `
+        <li class="bw-publish-modal__item">
+          <svg class="bw-publish-modal__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <div class="bw-publish-modal__item-info">
+            <div class="bw-publish-modal__item-section">${formatSectionName(edit.section)}</div>
+            <div class="bw-publish-modal__item-desc">${edit.description || edit.filePath}</div>
+          </div>
+        </li>
+      `).join('');
+
+      // Reset body/footer to default
+      publishBody.style.display = '';
+      publishFooter.style.display = '';
+      publishCancel.style.display = '';
+      publishConfirm.disabled = false;
+      publishConfirm.innerHTML = 'Publish Now';
+
+      modalBackdrop.classList.add('bw-visible');
+    }
+
+    function closePublishModal() {
+      modalBackdrop.classList.remove('bw-visible');
+    }
+
+    async function handlePublish() {
+      const edits = (window as any).__bwStagedEdits || [];
+      if (edits.length === 0) return;
+
+      // Loading state
+      publishConfirm.disabled = true;
+      publishConfirm.innerHTML = '<span class="bw-publish-modal__spinner"></span> Publishing…';
+      publishCancel.style.display = 'none';
+
+      try {
+        const commitMessage = buildCommitMessage(edits);
+        const response = await fetch('/api/publish', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${(window as any).__bwAuthToken || ''}`,
+          },
+          body: JSON.stringify({
+            edits: edits.map((e: any) => ({
+              filePath: e.filePath,
+              modifiedCode: e.modifiedCode,
+              section: e.section,
+              description: e.description,
+            })),
+            commitMessage,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.message || 'Publish failed');
+        }
+
+        // Success state
+        publishBody.innerHTML = `
+          <div class="bw-publish-modal__success">
+            <div class="bw-publish-modal__success-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="bw-publish-modal__success-title">Changes Published!</div>
+            <div class="bw-publish-modal__success-text">${data.message}</div>
+            ${data.commitUrl ? `<a class="bw-publish-modal__success-link" href="${data.commitUrl}" target="_blank" rel="noopener">View commit on GitHub →</a>` : ''}
+          </div>
+        `;
+
+        publishFooter.innerHTML = `
+          <button class="bw-publish-modal__btn bw-publish-modal__btn--cancel" id="bw-publish-done" type="button">Done</button>
+        `;
+        document.getElementById('bw-publish-done')!.addEventListener('click', () => {
+          closePublishModal();
+        });
+
+        // Clear staged edits
+        (window as any).__bwStagedEdits = [];
+        window.dispatchEvent(new CustomEvent('staged-edits-changed', { detail: { count: 0 } }));
+
+      } catch (err: any) {
+        // Error state — preserve staged edits for retry
+        publishConfirm.disabled = false;
+        publishConfirm.innerHTML = 'Retry';
+        publishCancel.style.display = '';
+        publishSubtitle.textContent = `Error: ${err.message}`;
+        publishSubtitle.style.color = '#ef4444';
+      }
+    }
+
+    publishBtn.addEventListener('click', openPublishModal);
+    publishCancel.addEventListener('click', closePublishModal);
+    publishConfirm.addEventListener('click', handlePublish);
+
+    // Close modal on backdrop click
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closePublishModal();
+    });
+
+    // Close modal on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalBackdrop.classList.contains('bw-visible')) {
+        closePublishModal();
+      }
+    });
+
+    // ── Persist edit mode on internal navigation ──
+    document.addEventListener('click', (e) => {
+      const anchor = (e.target as HTMLElement).closest('a[href]');
+      if (!anchor) return;
+      const href = anchor.getAttribute('href');
+      if (!href || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+
+      // Internal link — append ?edit=true
+      e.preventDefault();
+      const url = new URL(href, window.location.origin);
+      url.searchParams.set('edit', 'true');
+      window.location.href = url.toString();
+    });
+    } // end activateEditor
+  })();
+</script>
