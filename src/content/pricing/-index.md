@@ -1,60 +1,60 @@
 ---
 title: Pricing
-description: "Professional tax preparation and bookkeeping services with transparent pricing. From basic tax filing to comprehensive business accounting solutions."
+description: "Transparent pricing for professional tax preparation, bookkeeping, and financial management services. Find the right plan for your business or individual needs."
 draft: false
 plans:
-- title: Basic Bookkeeping
-  subtitle: Best For Small Businesses
+- title: Individual Tax Return
+  subtitle: Best For Personal Tax Filing
   price: 150
-  type: month
+  type: return
   features:
-    - Monthly Financial Statements
-    - Bank Reconciliation
-    - Accounts Payable/Receivable
-    - QuickBooks Setup & Management
-    - Monthly Financial Review
+    - Complete Tax Return Preparation
+    - Federal and State Filing
+    - Direct Deposit Setup
+    - Tax Planning Consultation
+    - Year-Round Support
   button:
     label: Get started
     link: "/contact-us"
 
-- title: Professional Package
-  subtitle: Most Popular for Growing Businesses
+- title: Small Business Package
+  subtitle: Best For Small Business Owners
   price: 300
-  type: month
+  type: return
   recommended: true
   features:
-    - Everything in Basic Plan
-    - Payroll Processing & Management
-    - Sales Tax Preparation & Filing
-    - Quarterly Business Tax Prep
-    - Financial Planning & Analysis
-    - Priority Support
+    - Business Tax Return Preparation
+    - Quarterly Tax Estimates
+    - Basic Bookkeeping Services
+    - Sales Tax Preparation
+    - Payroll Setup Available
+    - Financial Planning Consultation
   button:
     label: Get started
     link: "/contact-us"
 
-- title: Full-Service Business
-  subtitle: Best For Established Companies
+- title: Full Service Business
+  subtitle: Best For Growing Companies
   price: 500
-  type: month
+  type: return
   features:
-    - Everything in Professional Plan
-    - Annual Business Tax Returns
-    - Tax Strategy Planning
-    - IRS Representation
-    - Multi-State Tax Compliance
-    - Dedicated Account Manager
+    - Complete Business Tax Preparation
+    - Monthly Bookkeeping Services
+    - Payroll Management
+    - Sales Tax Filing
+    - Financial Statement Preparation
+    - Strategic Tax Planning
   button:
     label: Get started
     link: "/contact-us"
 
 call_to_action:
   title: Need a custom solution?
-  content: We offer package deals with lucrative discount incentives for multiple services. Every business is unique, and we're here to create a plan that fits your specific needs and budget.
+  content: We offer package deals with lucrative discount incentives for multiple services. Our professional team can create a tailored financial management solution that fits your specific business needs and budget.
   image: '/images/cta.png'
   button:
     enable: true
-    label: "Contact Us for Group Discounts"
+    label: "Contact Us"
     link: "/contact-us"
     
 ---

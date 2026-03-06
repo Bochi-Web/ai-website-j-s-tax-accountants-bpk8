@@ -4,9 +4,9 @@ description: "Get in touch with J&S Tax Accountants for professional tax prepara
 draft: false
 info:
   title: Ready to simplify your taxes and bookkeeping?
-  description: At J&S Tax Accountants, we're here to help you every step of the way with comprehensive tax preparation, bookkeeping, and financial management services. Contact us today to discuss your needs and discover how we can help your business succeed.
+  description: At J&S Tax Accountants, we're here to help you every step of the way. Whether you need tax preparation, bookkeeping services, or payroll management, our experienced team is ready to provide the professional financial solutions your business needs.
   contacts:
-    - "Contact us for personalized service"
+    - "Contact us for immediate assistance"
     - "Email us for quick responses"
-    - "Schedule your consultation online"
+    - "Schedule your free consultation online"
 ---

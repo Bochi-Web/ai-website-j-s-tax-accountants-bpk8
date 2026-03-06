@@ -51,20 +51,20 @@
           "url": "/about-us"
         },
         {
-          "text": "Contact Us",
-          "url": "/contact-us"
+          "text": "Industries Served",
+          "url": "/services"
         }
       ]
     },
     {
-      "name": "Resources",
+      "name": "Support",
       "menu": [
         {
-          "text": "Online Booking",
+          "text": "Contact Us",
           "url": "/contact-us"
         },
         {
-          "text": "Free Consultation",
+          "text": "Online Booking",
           "url": "/contact-us"
         },
         {

@@ -1,14 +1,3 @@
 {
-  "main": [
-    {
-      "name": "linkedin",
-      "icon": "FaLinkedin",
-      "link": "https://www.linkedin.com/company/js-tax-accountants"
-    },
-    {
-      "name": "facebook",
-      "icon": "FaFacebook",
-      "link": "https://www.facebook.com/jstaxaccountants"
-    }
-  ]
+  "main": []
 }
