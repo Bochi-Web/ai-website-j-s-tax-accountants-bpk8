@@ -1,60 +1,60 @@
 ---
 title: Pricing
-description: "Transparent pricing for professional tax preparation, bookkeeping, and financial management services. Find the right plan for your business or individual needs."
+description: "Transparent pricing for professional tax preparation and bookkeeping services. Get quality financial management solutions at competitive rates with J&S Tax Accountants."
 draft: false
 plans:
-- title: Individual Tax Return
-  subtitle: Best For Personal Tax Filing
+- title: Individual Tax Prep
+  subtitle: Best For Personal Tax Returns
   price: 150
-  type: return
+  type: filing
   features:
-    - Complete Tax Return Preparation
-    - Federal and State Filing
-    - Direct Deposit Setup
+    - Personal Income Tax Preparation
+    - E-filing Included
     - Tax Planning Consultation
-    - Year-Round Support
+    - Document Review
+    - Accuracy Guarantee
   button:
-    label: Get started
+    label: Schedule Consultation
     link: "/contact-us"
 
-- title: Small Business Package
-  subtitle: Best For Small Business Owners
-  price: 300
-  type: return
+- title: Business Tax Package
+  subtitle: Best For Small Businesses
+  price: 350
+  type: filing
   recommended: true
   features:
-    - Business Tax Return Preparation
-    - Quarterly Tax Estimates
-    - Basic Bookkeeping Services
+    - Business Tax Preparation
+    - Quarterly Tax Planning
+    - Bookkeeping Services
+    - Payroll Management Setup
     - Sales Tax Preparation
-    - Payroll Setup Available
-    - Financial Planning Consultation
+    - Year-End Financial Reports
   button:
-    label: Get started
+    label: Get Started
     link: "/contact-us"
 
-- title: Full Service Business
-  subtitle: Best For Growing Companies
+- title: Comprehensive Plan
+  subtitle: Best For Growing Businesses
   price: 500
-  type: return
+  type: filing
   features:
-    - Complete Business Tax Preparation
-    - Monthly Bookkeeping Services
+    - Full-Service Tax Preparation
+    - Monthly Bookkeeping
     - Payroll Management
-    - Sales Tax Filing
-    - Financial Statement Preparation
-    - Strategic Tax Planning
+    - Financial Planning
+    - Tax Strategy Consulting
+    - Priority Support
   button:
-    label: Get started
+    label: Contact Us
     link: "/contact-us"
 
 call_to_action:
-  title: Need a custom solution?
-  content: We offer package deals with lucrative discount incentives for multiple services. Our professional team can create a tailored financial management solution that fits your specific business needs and budget.
+  title: Need a custom package?
+  content: We offer flexible pricing and package deals with attractive discount incentives. Our professional team will work with you to create a solution that fits your specific needs and budget.
   image: '/images/cta.png'
   button:
     enable: true
-    label: "Contact Us"
+    label: "Get Group Discounts"
     link: "/contact-us"
     
 ---
